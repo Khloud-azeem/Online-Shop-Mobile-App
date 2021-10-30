@@ -3,7 +3,7 @@ import 'package:online_shop/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
 // import '../models/product.dart';
-import '../widgets/product_item.dart';
+import 'package:online_shop/widgets/product_item.dart';
 
 class ProductsGridView extends StatelessWidget {
   final bool showFavouritsOnly;

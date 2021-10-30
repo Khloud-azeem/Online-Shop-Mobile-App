@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/providers/cart_provider.dart';
 import 'package:online_shop/screens/product_details_screen.dart';
 import 'package:provider/provider.dart';
-import '../providers/product.dart';
+import 'package:online_shop/providers/product.dart';
 
 class ProductItem extends StatelessWidget {
   // const ProductItem({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<CartProvider>(context, listen: false);
     return GridTile(
       child: GestureDetector(
         onTap: () => Navigator.of(context).pushNamed(
@@ -44,10 +46,8 @@ class ProductItem extends StatelessWidget {
               ),
               //doesn't work???????
               color: Theme.of(context).accentColor,
-              // lable: child
               onPressed: () => product.toggleFavouritStatus(),
             );
-            // child: Text(''), // this don't rebuild when consumer rebuilds its content
           },
         ),
         trailing: IconButton(
@@ -55,7 +55,8 @@ class ProductItem extends StatelessWidget {
             Icons.shopping_cart,
           ),
           color: Theme.of(context).accentColor,
-          onPressed: null,
+          onPressed: () =>
+              cart.addItem(product.id, product.title, product.price),
         ),
         title: Text(
           product.title,

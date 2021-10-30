@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/providers/cart_provider.dart';
 import 'package:online_shop/providers/products_provider.dart';
+import 'package:online_shop/screens/cart_screen.dart';
 import 'package:online_shop/screens/product_details_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/product.dart';
@@ -14,12 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ProductsProvider(),
-    // return ChangeNotifierProvider.value( 
-    //   // use this way if the data doesn'y depend on the context, we use it with Grid, List items
-    //   value: ProductsProvider(),
-      child: MaterialApp( 
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => ProductsProvider(),
+          // ChangeNotifierProvider.value(
+          //   // use this way if the data doesn'y depend on the context, we use it with Grid, List items
+          //   value: ProductsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+      ],
+      child: MaterialApp(
         title: 'My Online Shop',
         theme: ThemeData(
           primarySwatch: Colors.purple,
@@ -29,6 +38,7 @@ class MyApp extends StatelessWidget {
         home: ProductsOverviewScreen(),
         routes: {
           ProductDetailsScreen.routeName: (context) => ProductDetailsScreen(),
+          CartScreen.routeName: (context) => CartScreen(),
         },
       ),
     );

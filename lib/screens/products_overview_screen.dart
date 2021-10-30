@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/providers/cart_provider.dart';
+import 'package:online_shop/screens/cart_screen.dart';
+import 'package:online_shop/widgets/badge.dart';
 import 'package:online_shop/widgets/products_gridview.dart';
+import 'package:provider/provider.dart';
 // import '../models/product.dart';
 // import '../widgets/product_item.dart';
 
@@ -20,10 +24,25 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final cartData = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Shop'),
         actions: <Widget>[
+          Consumer<CartProvider>(
+            builder: (context, cartData, childToNotRebuild) {
+              return Badge(
+                child: childToNotRebuild as Widget,
+                value: cartData.itemsCount.toString(),
+              );
+            },
+            child: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+            ),
+          ),
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
