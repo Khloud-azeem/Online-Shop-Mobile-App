@@ -19,26 +19,29 @@ class CartScreen extends StatelessWidget {
         children: <Widget>[
           Card(
             margin: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Total Price',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                // SizedBox(
-                //   width: 20,
-                // ),
-                Chip(
-                  label: Text(
-                    '\$${cartData.totalPrice.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Total Price',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                  backgroundColor: Theme.of(context).primaryColor,
-                ),
-              ],
+                  // SizedBox(
+                  //   width: 20,
+                  // ),
+                  Chip(
+                    label: Text(
+                      '\$${cartData.totalPrice.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                  ),
+                ],
+              ),
             ),
           ),
           Card(
