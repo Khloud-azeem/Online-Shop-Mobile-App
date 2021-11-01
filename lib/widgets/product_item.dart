@@ -5,19 +5,18 @@ import 'package:provider/provider.dart';
 import 'package:online_shop/providers/product.dart';
 
 class ProductItem extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<CartProvider>(context, listen: false);
+    final productData = Provider.of<Product>(context, listen: false);
+    final cartData = Provider.of<CartProvider>(context, listen: false);
     return GridTile(
       child: GestureDetector(
         onTap: () => Navigator.of(context).pushNamed(
           ProductDetailsScreen.routeName,
-          arguments: product.id,
+          arguments: productData.id,
         ),
         child: Image.network(
-          product.imgUrl,
+          productData.imgUrl,
           fit: BoxFit.cover,
         ),
       ),
@@ -35,15 +34,29 @@ class ProductItem extends StatelessWidget {
           },
         ),
         trailing: IconButton(
-          icon: const Icon(
-            Icons.shopping_cart,
-          ),
-          color: Theme.of(context).accentColor,
-          onPressed: () =>
-              cart.addItem(product.id, product.title, product.price),
-        ),
+            icon: const Icon(
+              Icons.shopping_cart,
+            ),
+            color: Theme.of(context).accentColor,
+            onPressed: () {
+              cartData.addItem(
+                  productData.id, productData.title, productData.price);
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Product added to the cart'),
+                  action: SnackBarAction(
+                    label: 'UNDO',
+                    onPressed: () {
+                      cartData.removeThisItem(productData.id);
+                    },
+                  ),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }),
         title: Text(
-          product.title,
+          productData.title,
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.black54,
