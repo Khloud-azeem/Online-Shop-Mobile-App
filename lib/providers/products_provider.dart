@@ -45,8 +45,21 @@ class ProductsProvider with ChangeNotifier {
     return _items.where((item) => item.isFavourite).toList();
   }
 
-  void addProduct() {
+  void addProduct(Product product) {
+    _items.add(
+      Product(
+        id: DateTime.now().toString(),
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        imgUrl: product.imgUrl,
+      ),
+    );
     notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    _items.removeWhere((product) => product.id == productId);
   }
 
   Product findProductById(String productId) {

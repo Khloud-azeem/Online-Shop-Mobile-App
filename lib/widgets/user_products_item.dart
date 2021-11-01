@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/providers/products_provider.dart';
+import 'package:online_shop/screens/edit_product_screen.dart';
+import 'package:provider/provider.dart';
 
 class UserProductsItem extends StatelessWidget {
   // const UserProductsItem({ Key? key }) : super(key: key);
@@ -10,6 +13,8 @@ class UserProductsItem extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
+    final productsData = Provider.of<ProductsProvider>(context);
+
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(imgUrl),
@@ -21,14 +26,18 @@ class UserProductsItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(EditProductScreen.routeName);
+              },
               icon: Icon(
                 Icons.edit,
                 color: Theme.of(context).primaryColor,
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                // productsData.removeItem(productsData.items)
+              },
               icon: Icon(
                 Icons.delete,
                 color: Theme.of(context).errorColor,

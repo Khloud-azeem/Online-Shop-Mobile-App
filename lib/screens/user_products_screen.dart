@@ -3,6 +3,7 @@ import 'package:online_shop/providers/products_provider.dart';
 import 'package:online_shop/widgets/app_drawer.dart';
 import 'package:online_shop/widgets/user_products_item.dart';
 import 'package:provider/provider.dart';
+import 'package:online_shop/screens/edit_product_screen.dart';
 
 class UserProductsScreen extends StatelessWidget {
   const UserProductsScreen({Key? key}) : super(key: key);
@@ -15,6 +16,14 @@ class UserProductsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Products'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(EditProductScreen.routeName);
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: ListView.builder(
         itemBuilder: (context, idx) {
@@ -23,7 +32,7 @@ class UserProductsScreen extends StatelessWidget {
               UserProductsItem(
                   title: productsData.items[idx].title,
                   imgUrl: productsData.items[idx].imgUrl),
-              Divider(),
+              const Divider(),
             ],
           );
         },

@@ -28,9 +28,6 @@ class CartScreen extends StatelessWidget {
                     'Total Price',
                     style: Theme.of(context).textTheme.headline6,
                   ),
-                  // SizedBox(
-                  //   width: 20,
-                  // ),
                   Chip(
                     label: Text(
                       '\$${cartData.totalPrice.toStringAsFixed(2)}',
