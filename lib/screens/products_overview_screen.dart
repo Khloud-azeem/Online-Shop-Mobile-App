@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:online_shop/providers/cart_provider.dart';
 import 'package:online_shop/screens/cart_screen.dart';
+import 'package:online_shop/widgets/app_drawer.dart';
 import 'package:online_shop/widgets/badge.dart';
 import 'package:online_shop/widgets/products_gridview.dart';
 import 'package:provider/provider.dart';
-// import '../models/product.dart';
-// import '../widgets/product_item.dart';
+
 
 enum FilterOptions {
   Favourit,
@@ -33,7 +33,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             builder: (context, cartData, childToNotRebuild) {
               return Badge(
                 child: childToNotRebuild as Widget,
-                value: cartData.itemsCount.toString(),
+                value: cartData.itemsQuantitiesCount.toString(),
               );
             },
             child: IconButton(
@@ -69,6 +69,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGridView(_showFavouritsOnly),
     );
   }

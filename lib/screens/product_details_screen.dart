@@ -13,14 +13,47 @@ class ProductDetailsScreen extends StatelessWidget {
 
     final providerData = Provider.of<ProductsProvider>(
       context,
-      listen: false,// not to pdate each time sth change, only the first time
+      listen: false, // not to pdate each time sth change, only the first time
     );
     final selectedProduct = providerData.findProductById(productId);
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedProduct.title),
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: double.infinity,
+              child: Image.network(
+                selectedProduct.imgUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(
+                selectedProduct.title,
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(
+                selectedProduct.description,
+                style: Theme.of(context).textTheme.subtitle1,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

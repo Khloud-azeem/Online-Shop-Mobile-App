@@ -5,22 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:online_shop/providers/product.dart';
 
 class ProductItem extends StatelessWidget {
-  // const ProductItem({Key? key}) : super(key: key);
-
-  // final String id;
-  // final String title;
-  // final String imgUrl;
-
-  // ProductItem({
-  //   required this.id,
-  //   required this.title,
-  //   required this.imgUrl,
-  // });
-
-  // void selectProduct(BuildContext context) {
-  //   Navigator.of(context)
-  //       .pushNamed(ProductDetailsScreen.routeName, arguments: product.id);
-  // }
 
   @override
   Widget build(BuildContext context) {

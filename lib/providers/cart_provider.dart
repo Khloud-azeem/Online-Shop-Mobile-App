@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CartItem {
   final String id;
@@ -23,6 +23,14 @@ class CartProvider with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+  }
+
+  int get itemsQuantitiesCount {
+    int total = 0;
+    _items.forEach((key, item) {
+      total += item.quantity;
+    });
+    return total;
   }
 
   double get totalPrice {
@@ -61,7 +69,18 @@ class CartProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void removeItem(String productId) {
+    _items.remove(productId);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _items = {};
+    notifyListeners();
+  }
 }
+
 
 
 // Alt + click = move the line 
