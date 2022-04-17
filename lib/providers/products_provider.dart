@@ -47,19 +47,18 @@ class ProductsProvider with ChangeNotifier {
     return _items.where((item) => item.isFavourite).toList();
   }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     final url =
         Uri.parse("https://online-shop-5e10b-default-rtdb.firebaseio.com");
-    return http
-        .post(url,
-            body: json.encode({
-              'title': product.title,
-              'description': product.description,
-              'imgUrl': product.imgUrl,
-              'price': product.price,
-              'isFavourite': product.isFavourite,
-            }))
-        .then((response) {
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'title': product.title,
+            'description': product.description,
+            'imgUrl': product.imgUrl,
+            'price': product.price,
+            'isFavourite': product.isFavourite,
+          }));
       _items.add(Product(
         id: json.decode(response.body)['name'],
         title: product.title,
@@ -68,10 +67,10 @@ class ProductsProvider with ChangeNotifier {
         imgUrl: product.imgUrl,
       ));
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       print(error);
       throw (error);
-    });
+    }
   }
 
   void removeItem(String productId) {

@@ -48,7 +48,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -59,9 +59,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
       });
       final productsData =
           Provider.of<ProductsProvider>(context, listen: false);
-      productsData.addProduct(_editedProduct)
-      .catchError((error) {
-        return showDialog(
+      try {
+        await productsData.addProduct(_editedProduct);
+      } catch (error) {
+        await showDialog(
             context: context,
             builder: (context) => AlertDialog(
                   title: Text("An error occured"),
@@ -72,12 +73,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         onPressed: () => Navigator.of(context).pop())
                   ],
                 ));
-      }).then((_) {
+      } finally {
         setState(() {
           _isLoading = false;
         });
         Navigator.of(context).pop();
-      });
+      }
     }
   }
 
