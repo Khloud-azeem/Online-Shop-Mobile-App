@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'product.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ProductsProvider with ChangeNotifier {
   List<Product> _items = [
@@ -45,17 +47,31 @@ class ProductsProvider with ChangeNotifier {
     return _items.where((item) => item.isFavourite).toList();
   }
 
-  void addProduct(Product product) {
-    _items.add(
-      Product(
-        id: DateTime.now().toString(),
+  Future<void> addProduct(Product product) {
+    final url =
+        Uri.parse("https://online-shop-5e10b-default-rtdb.firebaseio.com");
+    return http
+        .post(url,
+            body: json.encode({
+              'title': product.title,
+              'description': product.description,
+              'imgUrl': product.imgUrl,
+              'price': product.price,
+              'isFavourite': product.isFavourite,
+            }))
+        .then((response) {
+      _items.add(Product(
+        id: json.decode(response.body)['name'],
         title: product.title,
         price: product.price,
         description: product.description,
         imgUrl: product.imgUrl,
-      ),
-    );
-    notifyListeners();
+      ));
+      notifyListeners();
+    }).catchError((error) {
+      print(error);
+      throw (error);
+    });
   }
 
   void removeItem(String productId) {
