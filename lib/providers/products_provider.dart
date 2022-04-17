@@ -73,6 +73,29 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchProducts() async {
+    const url = "https://online-shop-5e10b-default-rtdb.firebaseio.com";
+    try {
+      final response = await http.get(Uri.parse(url));
+      final fetchedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Product> fetchedList = [];
+      fetchedData.forEach((id, data) {
+        fetchedList.add(Product(
+          id: id,
+          title: data['title'],
+          price: data['price'],
+          description: data['description'],
+          imgUrl: data['imgUrl'],
+          isFavourite: data['isFavourite'],
+        ));
+      });
+      _items = fetchedList;
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
+  }
+
   void removeItem(String productId) {
     _items.removeWhere((product) => product.id == productId);
   }

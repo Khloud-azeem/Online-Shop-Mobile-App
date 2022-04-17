@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:online_shop/providers/cart_provider.dart';
+import 'package:online_shop/providers/products_provider.dart';
 import 'package:online_shop/screens/cart_screen.dart';
 import 'package:online_shop/widgets/app_drawer.dart';
 import 'package:online_shop/widgets/badge.dart';
 import 'package:online_shop/widgets/products_gridview.dart';
 import 'package:provider/provider.dart';
-
 
 enum FilterOptions {
   Favourit,
@@ -21,6 +21,25 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showFavouritsOnly = false;
+
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProductsProvider>(context).fetchProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +89,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGridView(_showFavouritsOnly),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGridView(_showFavouritsOnly),
     );
   }
 }
