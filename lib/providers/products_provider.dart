@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop/models/http_exception.dart';
 import 'package:provider/provider.dart';
 import 'product.dart';
 import 'package:http/http.dart' as http;
@@ -96,8 +97,20 @@ class ProductsProvider with ChangeNotifier {
     }
   }
 
-  void removeItem(String productId) {
-    _items.removeWhere((product) => product.id == productId);
+  Future<void> removeItem(String productId) async {
+    const url = "https://online-shop-5e10b-default-rtdb.firebaseio.com";
+    final productIndex =
+        _items.indexWhere((product) => product.id == productId);
+    var productReference = _items[productIndex];
+    _items.removeAt(productIndex);
+    notifyListeners();
+    final response = await http.delete(Uri.parse(url));
+    if (response.statusCode >= 400) {
+      _items.insert(productIndex, productReference);
+      notifyListeners();
+      throw HttpException("Couldn't delete!");
+    }
+    productReference.dispose();
   }
 
   Product findProductById(String productId) {
