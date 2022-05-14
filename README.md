@@ -1,6 +1,6 @@
 # online_shop
 
-A new Flutter project.
+A shop application, where you can both offer your own products as well as shop for products, add them to a cart and then place an order.
 
 ## Getting Started
 
